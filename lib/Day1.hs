@@ -11,7 +11,7 @@ numVals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 myIndex :: (Show a) => [a] -> Int -> Maybe a 
 myIndex [] _ = Nothing 
 myIndex (x: _) 0 = Just x
-myIndex (_ : xs) i = myIndex xs (i - 1)
+myIndex (_ : xs) i = myIndex xs $ i - 1
 
 
 toNum :: [String] -> String -> Maybe Int 
@@ -19,7 +19,7 @@ toNum numList str = elemIndex str numList >>= myIndex numVals
 
 applyToSubstrings :: Char -> [String] -> [String] -> [String]
 applyToSubstrings a [] acc = acc ++ [[a]] 
-applyToSubstrings a (x : xs) acc = applyToSubstrings a xs (acc ++ [a : x]) 
+applyToSubstrings a (x : xs) acc = applyToSubstrings a xs $ acc ++ [a : x] 
 
 substringsHelper :: Char -> String -> ([String], [String])
 substringsHelper curr [] = ([[curr]], [[curr]])
