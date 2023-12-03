@@ -111,4 +111,7 @@ multiplyNeighbors (_, nums) = foldr (\curr acc -> case curr of
 --   Then, we map the remaining symbols into the multiple of their neighbors
 --   Finally, we sum those numbers up
 solve2 :: String -> String
-solve2 = show . sum . map multiplyNeighbors . filter starWithTwoNeighbors. joinNeighbors . parse 
+solve2 =
+    show . sum . map multiplyNeighbors .
+        filter starWithTwoNeighbors .
+            joinNeighbors . parse 
