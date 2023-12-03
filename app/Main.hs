@@ -2,6 +2,7 @@ module Main where
 import System.Environment
 
 import Day1
+import Day2
 
 data Day = Day {
   input:: String,
@@ -12,11 +13,12 @@ data Day = Day {
 getSolveFn :: String -> String -> String -> String
 getSolveFn "1" "1" = Day1.solve1 
 getSolveFn "1" "2" = Day1.solve2
-
-
+getSolveFn "2" "1" = Day2.solve1
+getSolveFn "2" "2" = Day2.solve2
+ 
 makeInputFileName :: String -> String
 makeInputFileName a = "input/" ++ "Day" ++ a ++ ".txt"  
--- makeInputFileName a = "input/Day1-test.txt"
+--makeInputFileName a = "input/Day2-test.txt"
 
 getSolver :: [String] -> IO Day
 getSolver (day : part : _) = 
