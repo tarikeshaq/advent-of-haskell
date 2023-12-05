@@ -23,8 +23,8 @@ getSolveFn "4" "1" = Day4.solve1
 getSolveFn "4" "2" = Day4.solve2 
 
 makeInputFileName :: String -> String
---makeInputFileName a = "input/" ++ "Day" ++ a ++ ".txt"  
-makeInputFileName a = "input/Day4-test.txt"
+makeInputFileName a = "input/" ++ "Day" ++ a ++ ".txt"  
+--makeInputFileName a = "input/Day4-test.txt"
 getSolver :: [String] -> IO Day
 getSolver (day : part : _) = 
   let filename = makeInputFileName day 

@@ -10,11 +10,16 @@ data Card = Card {
   available :: [Int]
 } deriving (Show)
 
-getPoints :: Card -> Int 
-getPoints Card { winning = winning, available = available } =
-     let numWinning = foldr (\x acc -> 
+
+
+numMatches :: Card -> Int 
+numMatches Card { winning = winning, available = available } = foldr (\x acc -> 
                       if x `elem` winning then acc + 1 else acc) 0 available
-     in if numWinning == 0 then 0 else 2 ^ (numWinning - 1) 
+ 
+
+
+points :: Int -> Int 
+points numWinning = if numWinning == 0 then 0 else 2 ^ (numWinning - 1) 
 
 parseListWithAcc :: [Int] -> String -> ([Int], String)
 parseListWithAcc acc [] = (acc, []) 
@@ -72,7 +77,34 @@ parse s =
 -- Then, we map the list of cards, to be a list of points 
 -- Finally, we get the sum of the points
 solve1 :: String -> String
-solve1 = show . sum . map ( getPoints . parse) . lines
+solve1 = show . sum . map ( points . numMatches . parse) . lines
 
+
+updateRest :: Int -> Int -> [Int] -> [Int]
+updateRest 0 _ rem = rem
+updateRest _ _ [] = []
+updateRest i times (x : xs) = x + times : updateRest (i - 1) times xs
+
+
+
+aggregateWithAcc :: [Int] -> [Int] -> [Int]
+aggregateWithAcc acc [] = acc
+aggregateWithAcc (accx: acccs ) (x : xs) =
+   let newAccxs = updateRest x accx acccs
+       res = aggregateWithAcc newAccxs xs
+   in accx : res
+   
+
+
+aggregate :: [Int] -> [Int]
+aggregate s = aggregateWithAcc [1 | i <- [1..(length s)]]  s
+
+-- Approach:
+-- First, we parse into a list of Cards,
+-- Then we map the cards to a list of number of winners 
+-- Then, we aggregate the list of numbers into our result 
+-- We aggregate the numbers by having two lists, the list of original results &
+-- A list of number of copies per card 
+-- At the end, we sum up the number of copies
 solve2 :: String -> String
-solve2 _ = "world"
+solve2 = show . sum . aggregate . map (numMatches . parse ) . lines 
